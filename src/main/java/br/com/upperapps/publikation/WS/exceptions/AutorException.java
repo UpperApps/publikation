@@ -8,18 +8,19 @@ package br.com.upperapps.publikation.WS.exceptions;
 import javax.xml.ws.WebFault;
 
 /**
- *
+ * Classe para tratamento de exceções de Autor
  * @author rodrigomelo
+ * 
  */
 @WebFault(name = "AutorFault")
 public class AutorException extends Exception {
-    
-    public AutorException(String mensagem){
+
+    public AutorException(String mensagem) {
         super(mensagem);
     }
-    
-    public String getFaultInfo(){
+
+    public String getFaultInfo() {
         return "Requisição inválida";
     }
-    
+
 }

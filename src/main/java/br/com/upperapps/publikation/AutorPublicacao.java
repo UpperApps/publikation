@@ -97,5 +97,5 @@ public class AutorPublicacao implements Serializable {
     public String toString() {
         return "br.com.upperapps.publikation.AutorPublicacao[ id=" + id + " ]";
     }
-    
+
 }

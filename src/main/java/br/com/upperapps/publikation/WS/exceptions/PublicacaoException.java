@@ -13,13 +13,13 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(name = "PublicacaoFault")
 public class PublicacaoException extends Exception {
-    
-    public PublicacaoException(String mensagem){
+
+    public PublicacaoException(String mensagem) {
         super(mensagem);
     }
-    
-    public String getFaultInfo(){
+
+    public String getFaultInfo() {
         return "Requisição inválida";
     }
-    
+
 }

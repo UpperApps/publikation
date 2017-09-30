@@ -28,5 +28,5 @@ public class AutorPublicacaoFacade extends AbstractFacade<AutorPublicacao> {
     public AutorPublicacaoFacade() {
         super(AutorPublicacao.class);
     }
-    
+
 }

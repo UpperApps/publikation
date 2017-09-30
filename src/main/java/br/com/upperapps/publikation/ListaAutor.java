@@ -19,15 +19,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ListaAutor {
-    
-    @XmlElement(name="autor")
+
+    @XmlElement(name = "autor")
     private List<Autor> autores;
-    
-    public ListaAutor(List<Autor> autores){
+
+    public ListaAutor(List<Autor> autores) {
         this.autores = autores;
     }
-    
-    public ListaAutor(){
-        
+
+    public ListaAutor() {
+
     }
 }

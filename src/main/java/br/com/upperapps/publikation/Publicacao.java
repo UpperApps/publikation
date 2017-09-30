@@ -146,5 +146,5 @@ public class Publicacao implements Serializable {
     public String toString() {
         return "br.com.upperapps.publikation.Publicacao[ id=" + id + " ]";
     }
-    
+
 }

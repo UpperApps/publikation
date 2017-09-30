@@ -132,11 +132,10 @@ public class Autor implements Serializable {
         }
         return true;
     }
-    
-    
+
     @Override
     public String toString() {
         return "br.com.upperapps.publikation.Autor[ id=" + id + " ]";
     }
-    
+
 }

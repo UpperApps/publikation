@@ -33,16 +33,16 @@ public class PublicacaoFacade extends AbstractFacade<Publicacao> {
     public PublicacaoFacade() {
         super(Publicacao.class);
     }
-    
-    public List<Publicacao> buscaReferenciasPorAutor(Integer autorID) throws QueryException, EJBException{
+
+    public List<Publicacao> buscaReferenciasPorAutor(Integer autorID) throws QueryException, EJBException {
         List<Publicacao> publicacoes = new ArrayList<>();
-        
+
         publicacoes = em.createNamedQuery("Publicacao.buscaReferenciasPorAutor")
-                        .setParameter("autorID", autorID)
-                        .getResultList();
+                .setParameter("autorID", autorID)
+                .getResultList();
         return publicacoes;
     }
-    
+
 //    public List<Publicacao> buscaReferenciasPorAutor(Autor autor) throws QueryException, EJBException{
 //        List<Publicacao> publicacoes = new ArrayList<>();
 //        
@@ -51,5 +51,4 @@ public class PublicacaoFacade extends AbstractFacade<Publicacao> {
 //                        .getResultList();
 //        return publicacoes;
 //    }
-    
 }
