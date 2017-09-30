@@ -6,10 +6,12 @@
 package br.com.upperapps.publikation.session;
 
 import br.com.upperapps.publikation.Autor;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.eclipse.persistence.exceptions.DatabaseException;
+import org.eclipse.persistence.exceptions.IntegrityException;
 
 /**
  *
@@ -30,15 +32,9 @@ public class AutorFacade extends AbstractFacade<Autor> {
         super(Autor.class);
     }
     
-    public void remove(Integer id){
-        try {
+    public void remove(Integer id) throws EJBException{
             em.createNamedQuery("Autor.delete")
                 .setParameter("id", id)
                 .executeUpdate();
-        } catch (DatabaseException e) {
-            System.out.println(e);
-            throw new RuntimeException("Erro ao remover o autor: " + e);
-        }
-
     }
 }

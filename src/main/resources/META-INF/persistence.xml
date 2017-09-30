@@ -3,6 +3,11 @@
   <persistence-unit name="br.com.upperapps_Publikation_war_1.0-SNAPSHOTPU" transaction-type="JTA">
     <jta-data-source>java:app/Publikation_DataSource</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties/>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="none"/>
+      <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="eclipselink.logging.level.sql" value="OFF"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
+    </properties>
   </persistence-unit>
 </persistence>

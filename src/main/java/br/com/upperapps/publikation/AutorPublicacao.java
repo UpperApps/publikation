@@ -37,10 +37,10 @@ public class AutorPublicacao implements Serializable {
     private Integer id;
     @JoinColumn(name = "Autor_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Autor autorid;
+    private Autor autor;
     @JoinColumn(name = "Publicacao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Publicacao publicacaoid;
+    private Publicacao publicacao;
 
     public AutorPublicacao() {
     }
@@ -57,20 +57,20 @@ public class AutorPublicacao implements Serializable {
         this.id = id;
     }
 
-    public Autor getAutorid() {
-        return autorid;
+    public Autor getAutor() {
+        return autor;
     }
 
-    public void setAutorid(Autor autorid) {
-        this.autorid = autorid;
+    public void setAutorid(Autor autor) {
+        this.autor = autor;
     }
 
-    public Publicacao getPublicacaoid() {
-        return publicacaoid;
+    public Publicacao getPublicacao() {
+        return publicacao;
     }
 
-    public void setPublicacaoid(Publicacao publicacaoid) {
-        this.publicacaoid = publicacaoid;
+    public void setPublicacao(Publicacao publicacao) {
+        this.publicacao = publicacao;
     }
 
     @Override

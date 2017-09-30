@@ -6,16 +6,23 @@
 package br.com.upperapps.publikation.WS;
 
 import br.com.upperapps.publikation.Autor;
+import br.com.upperapps.publikation.AutorTopDTO;
+import br.com.upperapps.publikation.ListaAutor;
+import br.com.upperapps.publikation.ListaPublicacao;
 import br.com.upperapps.publikation.Publicacao;
+import br.com.upperapps.publikation.WS.exceptions.AutorException;
 import br.com.upperapps.publikation.session.AutorFacade;
 import br.com.upperapps.publikation.session.PublicacaoFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
+import org.eclipse.persistence.exceptions.QueryException;
 
 /**
  *
@@ -37,26 +44,128 @@ public class PublikationWS {
      */
     
     @WebMethod(operationName = "listarAutores")
-    @WebResult(name = "autor")
-    public List<Autor> listaAutores() {
+    @WebResult(name = "autores")
+    public ListaAutor listaAutores() throws AutorException {
         
         List<Autor> autores = new ArrayList<>();
         
         try {
           autores = autorFacade.findAll();          
         } catch (Exception e) {
-          throw new RuntimeException("Erro ao listar os autores: " + e);
+          throw new AutorException("Erro ao listar os autores. Causa: " + e.getCause());
         }
         
-        return autores;
+        return new ListaAutor(autores);
+    }
+    
+    /**
+     * Operação de Web service
+     */
+    @WebMethod(operationName = "salvarAutor")
+    public void salvarAutor(@WebParam(name = "autor") Autor autor) {
+        try {
+            autorFacade.create(autor);            
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao salvar o autor: " + e);
+        }
+    }
+    
+    /**
+     * Operação de Web service
+     */
+    @WebMethod(operationName = "buscarAutor")
+    @WebResult(name = "autor")
+    public Autor buscarAutor(@WebParam(name = "id") Integer id) throws AutorException{
+        Autor autor = new Autor();
+        
+        try {
+            autor = autorFacade.find(id);
+            
+            if(autor == null){
+                throw new AutorException("Não existe autor com este id.");
+            }
+            
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar o autor. Causa: " + e.getMessage());
+        }
+        return autor;
     }
 
     /**
      * Operação de Web service
      */
+    @WebMethod(operationName = "atualizaAutor")
+    public void atualizaAutor(@WebParam(name = "autor") Autor autor) throws AutorException{
+        try {
+            autorFacade.edit(autor);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o autor: " + e);
+        }
+        
+    }
+    
+    /**
+     * Operação de Web service
+     */
+    @WebMethod(operationName = "deletarAutor")
+    public void deletarAutor(@WebParam(name = "id") Integer id) throws AutorException{
+        try {
+            Autor autor = autorFacade.find(id);
+            
+            if(autor == null){
+                throw new AutorException("O autor informado não existe.");
+            }
+            
+            autorFacade.remove(id);
+            
+        } catch (EJBException e) {
+            throw new AutorException("Erro ao remover o autor. Causa: " + e.getCause());
+        }
+
+    }
+    
+    /**
+     * Operações de consulta especializadas.
+     */
+    
+    /**
+     * Retorna os colaboradores do autor com o maior nº de publicações.
+     * @return AutorTop
+     */
+    // TODO implementar este método.
+    
+//    @WebMethod(operationName = "buscaColaboradoresAutorTop")
+//    public AutorTopDTO buscaColaboradoresAutorTop() {
+//        //TODO write your implementation code here:
+//        return null;
+//    }
+
+    /**
+     * Busca as referências bibliográficas de um determinado autor.
+     * @param Integer autorID
+     * @return List<Publicacao>
+     */
+    @WebMethod(operationName = "buscaReferenciasPorAutor")
+    public List<Publicacao> buscaReferenciasPorAutor(@WebParam(name = "autorID") Integer autorID) throws AutorException{
+        List<Publicacao> publicacoes = new ArrayList<>();
+        
+        try {
+            publicacoes = publicacaoFacade.buscaReferenciasPorAutor(autorID);
+        } catch (EJBException e) {
+            throw new AutorException("Erro ao buscar referências do autor. Causa  EJBException: " + e.getCause());
+        }
+        
+        return publicacoes;
+    }
+    
+    /**
+     * Operação de Web service
+     * @return 
+     * @return  
+     */
     @WebMethod(operationName = "listarPublicacoes")
-    @WebResult(name = "publicacao")
-    public List<Publicacao> listaPublicacoes() {
+    @WebResult(name = "publicacoes")
+    public ListaPublicacao listaPublicacoes() {
         
         List<Publicacao> publicacoes = new ArrayList<>();
         
@@ -66,23 +175,7 @@ public class PublikationWS {
           throw new RuntimeException("Erro ao listar as publicacões: " + e);
         }
         
-        return publicacoes;
-    }
-
-    /**
-     * Operação de Web service
-     */
-    @WebMethod(operationName = "buscarAutor")
-    @WebResult(name = "autor")
-    public Autor buscarAutor(@WebParam(name = "id") Integer id) {
-        Autor autor = new Autor();
-        
-        try {
-            autor = autorFacade.find(id);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao buscar o autor de id " + id + ": " + e);
-        }
-        return autor;
+        return new ListaPublicacao(publicacoes);
     }
 
     /**
@@ -105,19 +198,6 @@ public class PublikationWS {
     /**
      * Operação de Web service
      */
-    @WebMethod(operationName = "atualizaAutor")
-    public void atualizaAutor(@WebParam(name = "autor") Autor autor) {
-        try {
-            autorFacade.edit(autor);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar o autor: " + e);
-        }
-        
-    }
-
-    /**
-     * Operação de Web service
-     */
     @WebMethod(operationName = "atualizaPublicacao")
     public void atualizaPublicacao(@WebParam(name = "publicacao") Publicacao publicacao) {
         try {
@@ -130,52 +210,10 @@ public class PublikationWS {
     /**
      * Operação de Web service
      */
-    @WebMethod(operationName = "deletarAutor")
-    public void deletarAutor(@WebParam(name = "id") Integer id) {
-        try {
-            autorFacade.remove(id);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao remover o autor: " + e);
-        }
-    }
-
-    /**
-     * Operação de Web service
-     */
     @WebMethod(operationName = "deletarPublicacao")
     public String deletarPublicacao(@WebParam(name = "id") Integer id) {
         //TODO write your implementation code here:
         return null;
-    }
-
-    /**
-     * Operação de Web service
-     */
-    @WebMethod(operationName = "buscaColaboradoresAutorTop")
-    public String buscaColaboradoresAutorTop() {
-        //TODO write your implementation code here:
-        return null;
-    }
-
-    /**
-     * Operação de Web service
-     */
-    @WebMethod(operationName = "buscaReferenciasPorAutor")
-    public String buscaReferenciasPorAutor(@WebParam(name = "autor") Autor autor) {
-        //TODO write your implementation code here:
-        return null;
-    }
-
-    /**
-     * Operação de Web service
-     */
-    @WebMethod(operationName = "salvarAutor")
-    public void salvarAutor(@WebParam(name = "autor") Autor autor) {
-        try {
-            autorFacade.create(autor);            
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao salvar o autor: " + e);
-        }
     }
 
     /**

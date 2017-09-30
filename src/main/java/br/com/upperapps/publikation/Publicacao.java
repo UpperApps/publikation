@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Publicacao.findByTitulo", query = "SELECT p FROM Publicacao p WHERE p.titulo = :titulo")
     , @NamedQuery(name = "Publicacao.findByPaginaInicial", query = "SELECT p FROM Publicacao p WHERE p.paginaInicial = :paginaInicial")
     , @NamedQuery(name = "Publicacao.findByPaginaFinal", query = "SELECT p FROM Publicacao p WHERE p.paginaFinal = :paginaFinal")
-    , @NamedQuery(name = "Publicacao.findByDataPublicacao", query = "SELECT p FROM Publicacao p WHERE p.dataPublicacao = :dataPublicacao")})
+    , @NamedQuery(name = "Publicacao.findByDataPublicacao", query = "SELECT p FROM Publicacao p WHERE p.dataPublicacao = :dataPublicacao")
+    , @NamedQuery(name = "Publicacao.buscaReferenciasPorAutor", query = "SELECT p FROM Publicacao p JOIN p.autorPublicacaoList ap WHERE ap.autor.id = :autorID")})
 public class Publicacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +57,7 @@ public class Publicacao implements Serializable {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPublicacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacaoid")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacao")
     private List<AutorPublicacao> autorPublicacaoList;
 
     public Publicacao() {
