@@ -43,12 +43,9 @@ public class PublicacaoFacade extends AbstractFacade<Publicacao> {
         return publicacoes;
     }
 
-//    public List<Publicacao> buscaReferenciasPorAutor(Autor autor) throws QueryException, EJBException{
-//        List<Publicacao> publicacoes = new ArrayList<>();
-//        
-//        publicacoes = em.createNamedQuery("Publicacao.buscaReferenciasPorAutor")
-//                        .setParameter("autor", autor)
-//                        .getResultList();
-//        return publicacoes;
-//    }
+    public void remove(Integer id) throws EJBException {
+        em.createNamedQuery("Publicacao.delete")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 }

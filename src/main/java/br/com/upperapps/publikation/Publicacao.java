@@ -39,7 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Publicacao.findByPaginaInicial", query = "SELECT p FROM Publicacao p WHERE p.paginaInicial = :paginaInicial")
     , @NamedQuery(name = "Publicacao.findByPaginaFinal", query = "SELECT p FROM Publicacao p WHERE p.paginaFinal = :paginaFinal")
     , @NamedQuery(name = "Publicacao.findByDataPublicacao", query = "SELECT p FROM Publicacao p WHERE p.dataPublicacao = :dataPublicacao")
-    , @NamedQuery(name = "Publicacao.buscaReferenciasPorAutor", query = "SELECT p FROM Publicacao p JOIN p.autorPublicacaoList ap WHERE ap.autor.id = :autorID")})
+    , @NamedQuery(name = "Publicacao.buscaReferenciasPorAutor", query = "SELECT p FROM Publicacao p JOIN p.autorPublicacaoList ap WHERE ap.autor.id = :autorID")
+    , @NamedQuery(name = "Publicacao.delete", query = "DELETE FROM Publicacao p WHERE p.id = :id")})
 public class Publicacao implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -61,7 +61,7 @@ public class AutorPublicacao implements Serializable {
         return autor;
     }
 
-    public void setAutorid(Autor autor) {
+    public void setAutor(Autor autor) {
         this.autor = autor;
     }
 
