@@ -6,7 +6,6 @@
 package br.com.upperapps.publikation;
 
 import java.util.List;
-import javax.jws.WebResult;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
