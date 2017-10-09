@@ -57,7 +57,7 @@ public class Autor implements Serializable {
     private String cpf;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "autor")
     private List<AutorPublicacao> autorPublicacaoList;
-    private Integer cep;
+    private String cep;
 
     public Autor() {
     }
@@ -114,11 +114,11 @@ public class Autor implements Serializable {
         this.autorPublicacaoList = autorPublicacaoList;
     }
     
-    public Integer getCep() {
+    public String getCep() {
         return cep;
     }
 
-    public void setCep(Integer cep) {
+    public void setCep(String cep) {
         this.cep = cep;
     }
 
